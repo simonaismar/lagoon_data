@@ -238,7 +238,7 @@ set(gca,'fontweight','bold')
 
 title('Tide Gauge Circadian Cycle Removal','fontsize',14,'fontweight','bold');
 xlabel('Time (dd-mm)','fontsize',14,'fontweight','bold');
-ylabel('SSH (m) ','fontsize',14,'fontweight','bold');
+ylabel('Temperature (C°) ','fontsize',14,'fontweight','bold');
 legend('Temperature','Temperature - Daily Cycle');
 
 set(gcf,'PaperPositionMode','auto')
