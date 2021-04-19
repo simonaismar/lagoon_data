@@ -7,3 +7,5 @@ Process: it detrends, if necessary normalises, and removes circadian cycle from 
 Analysis: correlation and time lag analysis
 Plots: original series, processed series, and time lag stem plot
 
+Note. before running the scripts add to your matlab path the functions in the repository "ancillary"
+
