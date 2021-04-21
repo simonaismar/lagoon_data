@@ -19,10 +19,10 @@ time = double(time_tmp + datenum('01-01-1950 00:00:00'));
 clear var* filename time_tmp
 save(outname) 
 
-cd ('/home/simo/Dropbox/research/CNR/IAS/dati mareografo/cool maps')
-load('map.mat', 'med_coastline')
-load('gebco_Med.mat')
-cd('/home/simo/Dropbox/research/CNR/IAS/dati mareografo/copernicus/dataset-duacs-nrt-medsea-j3-phy-assim-l3_1616748100438')
+%cd ('/home/simo/Dropbox/research/CNR/IAS/dati mareografo/cool maps')
+%load('map.mat', 'med_coastline')
+%load('gebco_Med.mat')
+%cd('/home/simo/Dropbox/research/CNR/IAS/dati mareografo/copernicus/dataset-duacs-nrt-medsea-j3-phy-assim-l3_1616748100438')
 [latm,lonm]=meshgrid(LAT,LON);
 latm=latm';
 lonm=lonm';
