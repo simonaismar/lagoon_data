@@ -5,8 +5,7 @@ function []=readst(filename,var1,var2,var3,var4,outname)
 % var*= name of the variables that we want to extract from the .nc file
 % example: var1='sla_filtered';var2='time'; var3='longitude';var4='latitude';
 % (for this we need to read the nc metadata first) 
-% outname: name of the output figure string format 
-
+% outname: name of the output figure and .mat file. String format 
 
 sla_filtered=ncread(filename,var1);
 time_tmp=ncread(filename,var2);
