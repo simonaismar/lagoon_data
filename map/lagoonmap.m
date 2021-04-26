@@ -54,4 +54,4 @@ xlabel('Longitude','fontsize',14,'fontweight','bold');
 ylabel('Latitude ','fontsize',14,'fontweight','bold');
 legend([stg,saw], 'Tide Gauge','AWAC')
 set(gcf,'PaperPositionMode','auto')
-print('-dpng','-r600','maplagoon.png')
+%print('-dpng','-r600','maplagoon.png')
