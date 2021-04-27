@@ -8,22 +8,22 @@
 %        are the other way around.   
 
 %% data
-load('awac.mat')
+load('gitdata.mat')
 
 % detrend
-depthdt=awac.depth-mean(awac.depth);
-%depthdt2=detrend(awac.Depth);
+depthdt=sample.depth-mean(sample.depth);
+%depthdt2=detrend(sample.Depth);
 
 % normalise
-depthnm=normalize(awac.depth);
+depthnm=normalize(sample.depth);
 
 % the processed data have spikes so
 
-sshtdt=awac.TOTALLEVELdetrended;
-astrodt=awac.ASTRONOMICLEVELdetrended;
-sshrdt=awac.RESIDUALLEVELdetrended;
+sshtdt=sample.TOTALLEVELdetrended;
+astrodt=sample.ASTRONOMICLEVELdetrended;
+sshrdt=sample.RESIDUALLEVELdetrended;
 
-for kk=1:size(awac,1)
+for kk=1:size(sample,1)
     
 if  abs(sshtdt(kk))>=2
     sshtdt(kk)=NaN;
@@ -44,12 +44,12 @@ formatIn1='mm/dd/yyyy HH:MM:SS';
 
 % discontinuities 643  1219 2131 2707 3619
 
-t1=datenum(awac.date(1), formatIn1);
-t2=datenum(awac.date(2), formatIn1);
+t1=datenum(sample.date(1), formatIn1);
+t2=datenum(sample.date(2), formatIn1);
 delta_time=t2-t1;
-timen=NaN*(1:3836)';
+timen=NaN*(1:size(sample,1))';
 timen(1)=t1;
-for jj=1:3835
+for jj=1:size(sample,1)-1
     timen(jj+1)=timen(jj)+delta_time';
 end
 
@@ -70,7 +70,8 @@ set(ah,'PaperUnits','inches',...
 
 plot(timen,depthdt,'k','linewidth',2)
 grid on
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
@@ -80,7 +81,7 @@ xlabel('Time (dd-mm)','fontsize',14,'fontweight','bold');
 ylabel('Depth (m)','fontsize',14,'fontweight','bold');
 
 set(gcf,'PaperPositionMode','auto')
-%print('-dpng','-r600','awac_depthdt.png')
+%print('-dpng','-r600','sample_depthdt.png')
 
 clear ah
 % normalised data plot
@@ -97,7 +98,8 @@ set(ah,'PaperUnits','inches',...
 plot(timen,depthnm,'r','LineWidth',2)
 grid on
 title('Awac Depth Normalised','fontsize',14,'fontweight','bold');
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
@@ -105,10 +107,9 @@ xlabel('Time (dd-mm)','fontsize',14,'fontweight','bold');
 ylabel('Depth (m)','fontsize',14,'fontweight','bold');
 
 set(gcf,'PaperPositionMode','auto')
-%print('-dpng','-r600','awac_depthnm.png')
+%print('-dpng','-r600','sample_depthnm.png')
 
 clear ah
-
 % comparison data plot
 
 ah=figure;
@@ -129,8 +130,8 @@ stp=plot(timen,sshtdt,'k','linewidth',2);
 
 %spp=plot(timen,seapressurenm,'r');
 grid on
-datetick('x','dd-mm','keeplimits')
-
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 title('Awac','fontsize',14,'fontweight','bold');
@@ -140,7 +141,7 @@ ylabel('SSH (m)','fontsize',14,'fontweight','bold');
 legend([stp,ap,srp], 'Residual','Astronomic','Total');
 
 set(gcf,'PaperPositionMode','auto')
-print('-dpng','-r600','comp_t_a_r.png')
+%print('-dpng','-r600','data_detrended.png')
 
 
 clear ah ap srp stp ans
@@ -161,8 +162,9 @@ hold on
 plot(timen,residual_ssh_sm,'r','linewidth',2);
 
 grid on
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
-datetick('x','dd-mm','keeplimits')
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 
@@ -175,4 +177,5 @@ set(gcf,'PaperPositionMode','auto')
 %print('-dpng','-r600','circadian.png')
 
 clear ah 
-save awac_proc
+
+%save sample_proc

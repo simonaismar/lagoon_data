@@ -12,27 +12,14 @@ clc
 
 %% data
 
-load ('awac_temp.mat')
+load ('gitdata.mat')
 
-pressure=tp_alberto.pressure(2:end)/100;
-temperature=tp_alberto.temperature(2:end)/100;
+pressure=sample.pressure/100;
+temperature=sample.temperature/100;
 
 ind=find(pressure==0);
 pressure(ind)=NaN;
 temperature(ind)=NaN;
-% building the time vector (it is the same as the AWAC)
-% load('awac.mat')
-% formatIn1='mm/dd/yyyy HH:MM:SS';
-% % discontinuities 643  1219 2131 2707 3619
-% t1=datenum(awac.date(1), formatIn1);
-% t2=datenum(awac.date(2), formatIn1);
-% delta_time=t2-t1;
-% timep=NaN*(1:size(tp_alberto,1)-1)';
-% timep(1)=t1;
-% 
-% for jj=1:(size(tp_alberto,1)-2)
-% timep(jj+1)=timep(jj)+delta_time';
-% end
 
 % detrend
 pdt=pressure-nanmean(pressure);
@@ -61,8 +48,8 @@ plot(timep,tc,'b','linewidth',2);
 
 grid on
 
-datetick('x','dd-mm','keeplimits')
-
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 
@@ -75,7 +62,7 @@ set(gcf,'PaperPositionMode','auto')
 
 clear ah ind
 
-save awac_temp_proc
+%save awac_temp_proc
 
 
 

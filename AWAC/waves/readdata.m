@@ -1,6 +1,6 @@
 %% Loads awac wave data, despikes and plots
-% input awac_wave.mat
-% output awac_wave_proc.mat
+% input sample.mat
+% output sample_proc.mat
 % figures  -tps.png
 %          -hsdt.png
 %          -dirtps.png
@@ -13,13 +13,13 @@ close all
 clc
 
 %% data
-load awac_wave
+load gitdata.mat
 
 % set time
-day=cellstr(awac_wave.Data);
+day=cellstr(sample.Data);
 day=cellstr(day);
 
-time=cellstr(awac_wave.Ora);
+time=cellstr(sample.Ora);
 time=cellstr(time);
 timec=strcat(day,{' '},time);
 
@@ -29,9 +29,9 @@ formatIn1='dd/mm/yyyy HH:MM';
 timen=datenum(timec, formatIn1);
 
 % smoothing
-hss= nanmoving_average(awac_wave.Hm0-nanmean(awac_wave.Hm0),12);
-tps= nanmoving_average(awac_wave.Tp-nanmean(awac_wave.Tp),12);
-dirtps= nanmoving_average(awac_wave.DirTp-nanmean(awac_wave.DirTp),12);
+hss= nanmoving_average(sample.Hm0-nanmean(sample.Hm0),12);
+tps= nanmoving_average(sample.Tp-nanmean(sample.Tp),12);
+dirtps= nanmoving_average(sample.DirTp-nanmean(sample.DirTp),12);
 
 %%
 ah=figure;
@@ -43,13 +43,14 @@ set(ah,'PaperUnits','inches',...
 'PaperType','<custom>',...
 'Position',[50 50 1000 500],'visible','on');
 
-plot(timen,(awac_wave.Hm0-nanmean(awac_wave.Hm0)));
+plot(timen,(sample.Hm0-nanmean(sample.Hm0)));
 hold on
 plot(timen,hss,'r','linewidth',2);
 
 grid on
+set(gca, 'xtick', []);
 
-datetick('x','dd-mm','keeplimits')
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 
@@ -73,13 +74,15 @@ set(ah,'PaperUnits','inches',...
 'PaperType','<custom>',...
 'Position',[50 50 1000 500],'visible','on');
 
-plot(timen,(awac_wave.Tp-nanmean(awac_wave.Tp)),'g');
+plot(timen,(sample.Tp-nanmean(sample.Tp)),'g');
 hold on
 plot(timen,tps,'k','linewidth',2);
 
 grid on
 
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 
@@ -103,13 +106,15 @@ set(ah,'PaperUnits','inches',...
 'PaperType','<custom>',...
 'Position',[50 50 1000 500],'visible','on');
 
-plot(timen,(awac_wave.DirTp-nanmean(awac_wave.DirTp)),'g');
+plot(timen,(sample.DirTp-nanmean(sample.DirTp)),'g');
 hold on
 plot(timen,dirtps,'k','linewidth',2);
 
 grid on
 
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 
@@ -122,4 +127,4 @@ set(gcf,'PaperPositionMode','auto')
 
 clear ah
 close
-%save awac_wave_proc
+%save sample_proc
