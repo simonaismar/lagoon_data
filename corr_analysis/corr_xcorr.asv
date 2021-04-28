@@ -68,8 +68,6 @@ tempc=temperature1_sm(1:indol); % comment off github
 clear indol % comment off github
 indol=1; % this is the index of the stardt/end of the overlapping series
 
-%sshc=timed_ssh_sm(861:end); % uncomment off github % 861 is the index of the starting time
-
 sshc=timed_ssh_sm(indol:end); % comment off github
 R_ss = corr(sshc,salc,'rows','complete');   %  -0.4573
 R_sht = corr(sshc,tempc,'rows','complete'); %  0.6559
@@ -119,7 +117,7 @@ cd ../corr_analysis/
 % correlation
 %uncomment line below if using the real dataset off github
 %sshus=residual_ssh_sm(1:2:end); % ssh undersampled smoothed
-sshus=residual_ssh_sm; % comment off github
+sshus=residual_ssh_sm;
 R_hs = corr(sshus,hss, 'rows','complete'); 
 
 % time lag
@@ -249,7 +247,7 @@ ylabel('Corr Coeff','fontsize',14,'fontweight','bold');
 set(gcf,'PaperPositionMode','auto')
 %print('-dpng','-r600','xslashha.png')
 
-
+cd ..
 %save out_correlations
 
 

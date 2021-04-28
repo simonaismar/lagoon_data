@@ -127,4 +127,4 @@ set(gcf,'PaperPositionMode','auto')
 
 clear ah
 close
-%save sample_proc
+save awac_wave_proc
