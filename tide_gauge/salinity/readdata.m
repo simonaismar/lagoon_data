@@ -9,25 +9,25 @@ clear
 clc
 %% load raw data
 
-load raw_sal_temp
+load gitdata.mat
 
 %% extract time
 % why is it on multiple columns?
 
-time_raw=saltemp.Salinit;
+time_raw=sample.Salinit;
 ind=isnat(time_raw);
 time1=datenum(time_raw(~ind));
 clear ind
 clear time_raw
 
-time_raw=saltemp.Temperatura;
+time_raw=sample.Temperatura;
 time2=datenum(time_raw);
 clear time_raw
 
 %% extract salinity and temperature
-salinity1=saltemp.VarName3;      %already every ~2 hrs
-temperature1=saltemp.VarName4;   %already every ~2 hrs
-temperature2=saltemp.VarName10;  %every half hour --> half smoothing window 2  
+salinity1=sample.VarName3;      %already every ~2 hrs
+temperature1=sample.VarName4;   %already every ~2 hrs
+temperature2=sample.VarName10;  %every half hour --> half smoothing window 2  
 
 %% normalise and smooth data (remove circadian cycle)
 % if delta time is 2 hours
@@ -62,15 +62,12 @@ hold on
 
 clear ind
 
-% p3=plot(time2,temperature2_nm,'Color',[.51 .51 .51],'linewidth',2.5);
-% hold on
-% p4=plot(time2,temperature2_sm,'Color','m','linewidth',1.5);
-
-datetick('x','dd-mm','keeplimits')
-xo=get(gca,'XTick');
-xn=xo(1):2:xo(end);
-set(gca,'XTick',xn);
-axis tight
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
+% xo=get(gca,'XTick');
+% xn=xo(1):2:xo(end);
+% set(gca,'XTick',xn);
+%axis tight
 
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
@@ -87,4 +84,51 @@ set(gcf,'PaperPositionMode','auto')
 %print('-dpng','-r600','salinity&tempnodaily.png')
 
 clear ah p* xn xo
-save saltemp_proc
+
+%%  
+ah=figure;
+
+set(ah,'PaperUnits','inches',...
+'PaperOrientation','portrait',...
+'PaperSize',[8 8],...
+'Paperposition',[0.5 0.5 9.5 3],...
+'PaperType','<custom>',...
+'Position',[50 50 1000 500],'visible','on');
+
+ind=isnan(salinity1);
+
+p1=plot(time1(~ind),temperature1_nm(~ind),'Color','b','linewidth',1.5);
+grid on
+hold on
+p2=plot(time1(~ind),salinity1_nm(~ind),'Color','g','linewidth',1.5);
+hold on
+
+clear ind
+
+
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
+
+% datetick('x','dd-mm','keeplimits')
+% xo=get(gca,'XTick');
+% xn=xo(1):2:xo(end);
+% set(gca,'XTick',xn);
+
+axis tight
+
+set(gca,'fontsize',14)
+set(gca,'fontweight','bold')
+
+title('Salinity and Temperature - Normalised','fontsize',14,'fontweight','bold');
+
+xlabel('Time (dd-mm)','fontsize',14,'fontweight','bold');
+ylabel('Salinity (PSU) & Temperature (°)','fontsize',14,'fontweight','bold');
+
+legend([p1,p2], 'Temperature','Salinity','location','best');
+
+set(gcf,'PaperPositionMode','auto')
+
+%print('-dpng','-r600','salinity&temp.png')
+clear ah p* xn xo
+
+%save saltemp_proc

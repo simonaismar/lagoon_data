@@ -1,7 +1,7 @@
 %% Loads tide gauge data, despikes and plots
 
-% input tidelagoon.mat
-% output tidelagoon_proc.mat
+% input sample.mat
+% output sample_proc.mat
 % figures  -comp_t_a_rpng
 %          -depthdt_detrended.png
 %          -comp_t_a_r.png
@@ -9,36 +9,36 @@
 %          -circadian_ssh.png
 
 % notes: the variable names from the excel are messed up
-%        tidelagoon.TOTALLEVELdetrended = sshtdt
-%        tidelagoon.RESIDUALLEVELdetrended = astrodt
-%        tidelagoon.ASTRONOMICLEVELdetrended = sshrdt
+%        sample.TOTALLEVELdetrended = sshtdt
+%        sample.RESIDUALLEVELdetrended = astrodt
+%        sample.ASTRONOMICLEVELdetrended = sshrdt
 
 %% data
 load('gitdata.mat')
 
 % format time
 formatIn='dd/mm/yyyy HH:MM:SS'; 
-timen=datenum(tidelagoon.Timestamp, formatIn);
+timen=datenum(sample.Timestamp, formatIn);
 
 % detrend
-depthdt=tidelagoon.Depth-mean(tidelagoon.Depth);
-seapdt=tidelagoon.SeaPressure-mean(tidelagoon.SeaPressure);
-SSPdt=tidelagoon.Pressure-mean(tidelagoon.Pressure);
-tempdt=tidelagoon.Temperature-mean(tidelagoon.Temperature);
+depthdt=sample.Depth-mean(sample.Depth);
+seapdt=sample.SeaPressure-mean(sample.SeaPressure);
+SSPdt=sample.Pressure-mean(sample.Pressure);
+tempdt=sample.Temperature-mean(sample.Temperature);
 
-%depthdt2=detrend(tidelagoon.Depth);
+%depthdt2=detrend(sample.Depth);
 
 % normalise
-depthnm=normalize(tidelagoon.Depth);
-tempnm=normalize(tidelagoon.Temperature);
-seapressurenm=normalize(tidelagoon.SeaPressure);
+depthnm=normalize(sample.Depth);
+tempnm=normalize(sample.Temperature);
+seapressurenm=normalize(sample.SeaPressure);
 
 % despike 
-sshtdt=tidelagoon.TOTALLEVELdetrended;
-astrodt=tidelagoon.ASTRONOMICLEVELdetrended;
-sshrdt=tidelagoon.RESIDUALLEVELdetrended;
+sshtdt=sample.TOTALLEVELdetrended;
+astrodt=sample.ASTRONOMICLEVELdetrended;
+sshrdt=sample.RESIDUALLEVELdetrended;
 
-for kk=1:size(tidelagoon,1)
+for kk=1:size(sample,1)
 if  abs(sshtdt(kk))>=2
     sshtdt(kk)=NaN;
 end
@@ -63,26 +63,29 @@ figure
 plot(timen,depthdt,'k')
 grid on
 title('Tide Gauge Depth dt','fontsize',14,'fontweight','bold');
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
 figure
-plot(timen,tidelagoon.Temperature,'b')
+plot(timen,sample.Temperature,'b')
 grid on
 title('Tide Gauge Temperature','fontsize',14,'fontweight','bold');
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
 figure
-plot(timen,tidelagoon.Depth,'m')
+plot(timen,sample.Depth,'m')
 grid on
 title('Tide Gauge Depth','fontsize',14,'fontweight','bold');
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
 figure
-plot(timen,tidelagoon.SeaPressure,'r')
+plot(timen,sample.SeaPressure,'r')
 grid on
 title('Tide Gauge Sea Pressure','fontsize',14,'fontweight','bold');
-datetick('x','dd-mm','keeplimits')
-
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
 %% normalised plots
 
@@ -95,7 +98,8 @@ plot(timen,depthnm,...
     'MarkerSize',3)
 grid on
 title('Tide Gauge Depth Normalised','fontsize',14,'fontweight','bold');
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
 figure
 plot(timen,tempnm,...
@@ -106,8 +110,8 @@ plot(timen,tempnm,...
     'MarkerSize',3)
 grid on
 title('Tide Gauge Temperature Normalised','fontsize',14,'fontweight','bold');
-datetick('x','dd-mm','keeplimits')
-
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 
 figure
 plot(timen,seapressurenm,...
@@ -118,7 +122,8 @@ plot(timen,seapressurenm,...
     'MarkerSize',3)
 grid on
 title('Tide Gauge Sea Pressure','fontsize',14,'fontweight','bold');
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 end
 
 %% compare depth and temp normalised
@@ -138,7 +143,8 @@ hold on
 %spp=plot(timen,seapressurenm,'r');
 grid on
 
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 title('Tide Gauge Normalised','fontsize',14,'fontweight','bold');
@@ -148,7 +154,7 @@ legend([dp,tp], 'Depth','Temperature');
 set(gcf,'PaperPositionMode','auto')
 %print('-dpng','-r600','comp_t_d.png')
 
-close;
+%close;
 clear ah dp tp
 %% compare depth and temp residual normalised
 
@@ -170,7 +176,9 @@ hold on
 %spp=plot(timen,seapressurenm,'r');
 grid on
 
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
+
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 
@@ -181,7 +189,7 @@ legend([stp,ap,srp], 'Total','Residual','Astronomic');
 
 set(gcf,'PaperPositionMode','auto')
 %print('-dpng','-r600','comp_t_a_r.png')
-close;
+%close;
 
 clear ah ap srp stp
 
@@ -202,7 +210,9 @@ p2=plot(timen,residual_ssh_sm,'r','linewidth',2);
 
 grid on
 
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
+
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 
@@ -214,7 +224,7 @@ legend('SSH','SSH - Daily Cycle');
 set(gcf,'PaperPositionMode','auto')
 %print('-dpng','-r600','circadian_ssh.png')
 
-close;
+%close;
 clear ah 
 %% plot temperature circadian
 ah=figure;
@@ -232,7 +242,9 @@ p4=plot(timen,temp_sm,'linewidth',2,'Color','b');
 
 grid on
 
-datetick('x','dd-mm','keeplimits')
+set(gca, 'xtick', []);
+datetick('x','dd-mmm-yy HH:MM','keeplimits')
+
 set(gca,'fontsize',14)
 set(gca,'fontweight','bold')
 
@@ -243,7 +255,7 @@ legend('Temperature','Temperature - Daily Cycle');
 
 set(gcf,'PaperPositionMode','auto')
 %print('-dpng','-r600','circadian_temp.png')
-close;
+%close;
 
 clear ah p*
 
