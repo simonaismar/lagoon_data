@@ -17,7 +17,7 @@ final_time = double(time + datenum('01-01-1950 00:00:00'));
 sla_awac=sla(68,32,:);
 sla_tide=sla(69,31,:);
 save read_data_l4
-
+load map
 
 %% plot map
 
